@@ -1,5 +1,7 @@
 # Agent 原理 · 三维图解
 
+在线体验：https://liyucheng1997.github.io/407_lab-AI-Agent/
+
 用 Three.js 搭的一个可交互三维模型，分 10 个章节讲清楚 **LLM、上下文、工具、Harness、Agent、Bot、多智能体** 之间的关系。
 
 ```bash
