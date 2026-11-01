@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent 原理 · 三维图解</title>
+    <meta name="description" content="用三维模型理清 LLM、上下文、工具、Harness、Agent、Bot 与多智能体之间的关系" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230a84ff'/%3E%3Ccircle cx='16' cy='16' r='6' fill='white'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="stage"></div>
+
+      <header class="topbar">
+        <div class="logo-mark"><span></span></div>
+        <div class="brand">
+          <div class="brand-name">Agent 原理 · 三维图解</div>
+          <div class="brand-sub">LLM · 上下文 · 工具 · Harness · Agent · Bot</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="tb-round" id="btn-rotate" title="自动旋转"></button>
+          <button class="tb-round" id="btn-labels" title="显示/隐藏标签"></button>
+        </div>
+      </header>
+
+      <nav class="chapters" id="chapters"></nav>
+
+      <aside class="narration" id="narration"></aside>
+
+      <div class="pager" id="pager"></div>
+
+      <div class="infocard" id="infocard"></div>
+
+      <div class="hint" id="hint">拖动旋转 · 滚轮缩放 · 点击任意部件查看说明 · ← → 切换章节</div>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div>正在搭建三维场景…</div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

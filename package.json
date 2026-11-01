@@ -1,0 +1,19 @@
+{
+  "name": "agent-visualized",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "用 Three.js 三维可视化 LLM、Harness、Agent、Bot 之间的关系",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
+}

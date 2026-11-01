@@ -1,0 +1,83 @@
+// 点击三维部件时弹出的说明卡
+export const INFO = {
+  llm: {
+    tag: '零件 · 大脑',
+    title: 'LLM 大语言模型',
+    body: '一个训练好的神经网络：输入一串 token，输出"下一个 token"的概率。反复接龙就能写出整段文字、代码，甚至一份行动计划。',
+    facts: ['参数在训练后固定不变', '无状态：每次调用都从零开始', '只能读文字、写文字，自己不能执行任何动作'],
+    eg: '例：Claude Opus、GPT、Gemini、DeepSeek、Qwen',
+  },
+  context: {
+    tag: '模型的输入',
+    title: '上下文窗口 Context',
+    body: '每次调用模型时送进去的全部文字：系统提示词、工具说明、对话历史、工具返回的结果。模型只能"看见"这里面的东西。',
+    facts: ['容量按 token 计算，有上限', '"记忆"本质上是把旧信息重新放回上下文', '放什么、放多少，就是上下文工程'],
+  },
+  loop: {
+    tag: 'Harness 模块',
+    title: '智能体循环 Agent Loop',
+    body: 'Harness 的心脏：调用模型 → 如果模型要用工具就执行 → 把结果追加进上下文 → 再调用模型……直到模型给出最终回答，或者达到步数/预算上限。',
+    facts: ['while 循环 + 一次次的模型调用', '"下一步做什么"由模型决定', '退出条件：模型不再调用工具'],
+  },
+  ctxm: {
+    tag: 'Harness 模块',
+    title: '上下文管理 Context',
+    body: '负责拼装每一次要发给模型的内容：系统提示词、工具定义、历史消息、工具结果。上下文快满时，还要负责压缩、摘要、丢弃旧内容。',
+    facts: ['决定模型"看到什么"', '自动压缩（compaction）', '缓存不变的前缀以省钱提速'],
+  },
+  runtime: {
+    tag: 'Harness 模块',
+    title: '工具执行器 Tool Runtime',
+    body: '模型说"我要调用 read_file(login.js)"，这里就把那段 JSON 解析出来，真的去读文件，再把结果打包成文字交回去。模型的"手"其实长在这里。',
+    facts: ['解析 tool_call', '调用本地命令、API、MCP 服务', '把结果和报错都变回文字'],
+  },
+  guard: {
+    tag: 'Harness 模块',
+    title: '权限与沙箱 Guardrails',
+    body: '模型可能犯错，也可能被网页里的恶意指令诱导。危险操作（删除文件、联网、花钱）要先经过权限规则或人工确认，命令最好在沙箱里运行。',
+    facts: ['允许 / 询问 / 禁止 三档规则', '沙箱隔离文件与网络', '把"能做什么"握在人手里'],
+  },
+  memory: {
+    tag: 'Harness 模块',
+    title: '记忆 Memory',
+    body: '模型本身记不住任何事。Harness 把重要信息写进文件或数据库（比如项目说明 CLAUDE.md、用户偏好），下次开工时再读回上下文。',
+    facts: ['短期记忆 = 当前上下文', '长期记忆 = 外部存储 + 按需读回', '记忆的质量取决于存什么、何时取'],
+  },
+  skills: {
+    tag: 'Harness 模块',
+    title: '技能与钩子 Skills & Hooks',
+    body: '技能（Skill）是可按需加载的"专业说明书"：需要时才把详细步骤放进上下文。钩子（Hook）是在特定时机自动运行的脚本，比如每次改完文件自动格式化。',
+    facts: ['技能：按需扩展知识与流程', '钩子：确定性的自动化规则', '让同一个模型适应不同团队的做法'],
+  },
+  files: { tag: '工具', title: '文件读写', body: '读取、创建、修改文件。代码类 Agent 最常用的工具。', facts: ['read_file / edit_file / write_file'] },
+  search: { tag: '工具', title: '代码搜索', body: '在大量文件里按关键字或正则查找，帮模型快速定位相关代码，而不必把所有文件都塞进上下文。', facts: ['grep / glob'] },
+  shell: { tag: '工具', title: '终端命令', body: '运行任意命令：装依赖、跑测试、启动服务。能力最强，也最需要权限控制。', facts: ['npm test / git status / python …'] },
+  browser: { tag: '工具', title: '浏览器', body: '搜索网页、打开页面、点击按钮、填写表单，让 Agent 能操作网站。', facts: ['web_search / navigate / click'] },
+  code: { tag: '工具', title: '代码执行', body: '在沙箱里运行一段代码来计算、处理数据或画图——模型不擅长心算，但擅长写代码算。', facts: ['python / javascript sandbox'] },
+  mcp: {
+    tag: '工具 · 协议',
+    title: 'MCP 服务',
+    body: 'Model Context Protocol：一种把外部系统（日历、数据库、Slack、设计工具……）包装成标准工具的协议。写一次 MCP 服务器，任何支持 MCP 的 Harness 都能用。',
+    facts: ['工具的"USB 接口"', '一端接 Harness，一端接外部系统'],
+  },
+  bot: {
+    tag: '产品形态',
+    title: 'Bot 机器人',
+    body: 'Bot 描述的是"它住在哪、长什么样、怎么被叫醒"：在某个渠道里有名字和头像，收到消息就回应。它背后可以是规则、单纯的 LLM，或一个完整的 Agent。',
+    facts: ['关键词：渠道、身份、触发', 'Bot ≠ Agent：一个讲形态，一个讲能力', '例：客服机器人、群聊助手、Telegram Bot'],
+  },
+  channel: { tag: 'Bot 的渠道', title: '消息渠道', body: '用户和 Bot 打交道的地方。渠道适配层负责把各平台的消息格式统一，再把回复发回去。', facts: ['微信 / Slack / 飞书 / 网页 / 电话'] },
+  rules: { tag: '最早的 Bot', title: '规则引擎', body: '不用 LLM，靠关键词匹配和写死的流程回答。可控、便宜，但一旦问题超出规则就答不上来。', facts: ['if 包含「营业时间」 → 回复固定文案'] },
+  subagent: {
+    tag: '多智能体',
+    title: '子 Agent Subagent',
+    body: '主 Agent 通过一个"派活"工具启动另一个 Agent。子 Agent 有自己全新的上下文，可以并行工作，最后只把精简的结论交回主 Agent。',
+    facts: ['上下文隔离，不会撑爆主 Agent', '可并行', '可以配置不同的工具和模型'],
+  },
+  agent: {
+    tag: '系统',
+    title: 'Agent 智能体',
+    body: 'LLM + Harness + 工具，再加上一个目标。它能自己决定下一步做什么，一轮轮推进，直到把任务完成。',
+    facts: ['自主决定步骤', '能感知结果并修正', '能力 ≈ 模型 × Harness × 工具'],
+  },
+};
